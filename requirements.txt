@@ -1,0 +1,12 @@
+Mako==1.0.3
+MarkupSafe==0.23
+ROPGadget==5.4
+argparse==1.2.1
+capstone==2.1
+paramiko==1.16.0
+psutil==3.3.0
+pwntools==2.2
+pyelftools==0.23
+pyserial==2.7
+requests==2.8.1
+wsgiref==0.1.2
