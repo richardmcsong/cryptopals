@@ -17,26 +17,26 @@ def kv_test():
 
 def kv(task):
 	output = {}
-	tokens = task.split("&")
+	tokens = task.split(b"&")
 	for token in tokens:
-		pair = token.split("=")
-		output[pair[0]] = try_convert_num(pair[1])
+		pair = token.split(b"=")
+		output[pair[0].decode()] = try_convert_num(pair[1])
 	return output
 
 def try_convert_num(s):
     try:
         return int(s)
     except ValueError:
-        return s
+        return s.decode()
 
 def pkcs7(task, block_length):
 	length_to_end = block_length - (len(task) % block_length)
 	result = task + length_to_end * chr(length_to_end)
-	return result
+	return result.encode()
 
 def remove_pkcs7(task):
-	if (ord(task[-1]) < 16 and task[0 - ord(task[-1]):] == task[-1] * ord(task[-1])):
-		return task[:0 - ord(task[-1])]
+	if (int(task[-1]) < 16 and task[0 - int(task[-1]):] == bytes([task[-1]]) * int(task[-1])):
+		return task[:0 - int(task[-1])]
 	else:
 		return task
 
@@ -58,11 +58,11 @@ def decrypt_parse_profile(tokens):
 	return kv(remove_pkcs7(ecb.decrypt(tokens)))
 
 def attack(encrypted_token):
-	return encrypted_token[:-16] + ecb.encrypt("role=admin" + "\x06"*6)
+	return encrypted_token[:-16] + ecb.encrypt(b"role=admin" + b"\x06"*6)
 
 if __name__ == "__main__":
-	kv_test()
-	profile_for_test()
+	# kv_test()
+	# profile_for_test()
 	actual = decrypt_parse_profile(attack(encrypted_profile_for("test@testtest.test")))
 	expected = {
 	  "email": "test@testtest.test",

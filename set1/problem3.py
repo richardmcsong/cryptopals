@@ -9,7 +9,7 @@ def decrypt_single_xor(task):
   answers = []
   error = None
   for i in range(255):
-    plaintext = ''.join([chr(ord(char) ^ i) for char in long_to_bytes(task)])
+    plaintext = ''.join([chr(char ^ i) for char in long_to_bytes(task)])
     try:
       error = sum([engFreq.index(char.lower()) for char in plaintext])
     except:
@@ -21,4 +21,4 @@ def decrypt_single_xor(task):
   return min(answers, key=itemgetter('err'))
 
 
-print decrypt_single_xor(task)
+print(decrypt_single_xor(task))

@@ -4,7 +4,7 @@ class InvalidPKCS7Error(Exception):
 
 
 def strip_pkcs7(input):
-    padding_length = u8(input[-1])
+    padding_length = u8(bytes([input[-1]]))
     if padding_length > 15:
         return input
     else:
@@ -13,15 +13,15 @@ def strip_pkcs7(input):
         else:
             return input[0: 0-padding_length]
 
-print strip_pkcs7("ICE ICE BABY\x04\x04\x04\x04") == "ICE ICE BABY" 
+print(strip_pkcs7(b"ICE ICE BABY\x04\x04\x04\x04") == b"ICE ICE BABY") 
 try:
-    strip_pkcs7("ICE ICE BABY\x05\x05\x05\x05")
-    print "should have raised an error"
+    strip_pkcs7(b"ICE ICE BABY\x05\x05\x05\x05")
+    print("should have raised an error")
 except InvalidPKCS7Error:
-    print "caught an expected error"
+    print("caught an expected error")
 
 try:
-    strip_pkcs7("ICE ICE BABY\x01\x02\x03\x04")
-    print "should have raised an error"
+    strip_pkcs7(b"ICE ICE BABY\x01\x02\x03\x04")
+    print("should have raised an error")
 except InvalidPKCS7Error:
-    print "caught an expected error"
+    print("caught an expected error")

@@ -25,4 +25,4 @@ def detect_ecb(tasks):
 #   task = raw_input('enter task:')
 #   print cipher.encrypt(task)
 
-print detect_ecb(tasks)
+print(detect_ecb(tasks))
